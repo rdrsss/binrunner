@@ -7,6 +7,7 @@ package main
 
 import (
 	"errors"
+	"log"
 	"os"
 	"os/exec"
 	"sync"
@@ -105,4 +106,92 @@ func (pm ProcessMap) ListPids() []int {
 func (pm ProcessMap) Count() int {
 	var count int = -1
 	return count
+}
+
+/* public functions */
+
+// --------------------------------------------------------------
+func StartProcess(cmd_str, args string) (*exec.Cmd, error) {
+	var err error = nil
+	var cmd *exec.Cmd = nil
+	cmd = exec.Command(cmd_str, args)
+	if cmd != nil {
+		log.Println("Starting process [", cmd_str, "] args[", args, "]")
+		err = cmd.Start()
+		if err == nil {
+			// no error
+			_pmap.Append(cmd)
+		} else {
+			// Log stderr, and stdout
+			log.Println(err)
+			log.Println("stdout : [%s]", cmd.Stdout)
+			log.Println("stderr : [%s]", cmd.Stderr)
+		}
+	} else {
+		err = errors.New("Failed to create an executable command")
+	}
+
+	return cmd, err
+}
+
+// --------------------------------------------------------------
+func KillProcess(pid int) error {
+	var err error = nil
+	if _pmap.HasProcess(pid) == true {
+		// kill the process
+		proc, _ := _pmap.GetProcess(pid)
+		err = proc.Kill()
+		// log pid, and track app info
+		go func() {
+			pstate, perr := proc.Wait()
+			if perr != nil {
+				log.Println(perr)
+			}
+			if pstate != nil {
+				log.Println(pstate.String())
+			}
+
+			_pmap.Remove(proc.Pid)
+		}()
+
+	} else {
+		err = errors.New("Could not find pid in process map")
+	}
+	return err
+}
+
+// --------------------------------------------------------------
+func KillAllProcesses() {
+	pids := _pmap.ListPids()
+	procs, _ := _pmap.GetProcesses(pids)
+	for _, proc := range procs {
+		// kill the process
+		err := proc.Kill()
+		if err == nil {
+			// log pid, and track app info
+			go func() {
+				pstate, perr := proc.Wait()
+				if perr != nil {
+					log.Println(perr)
+				}
+				if pstate != nil {
+					log.Println(pstate.String())
+				}
+
+				_pmap.Remove(proc.Pid)
+			}()
+		}
+	}
+}
+
+// --------------------------------------------------------------
+func ProcessInfo(pid int) error {
+	var err error = nil
+	// TODO:: display info for pid
+	return err
+}
+
+// --------------------------------------------------------------
+func GetAllProcesses() []int {
+	return _pmap.ListPids()
 }
