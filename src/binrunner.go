@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"flag"
 	"log"
+	"net/http"
 	"os"
 )
 
@@ -43,6 +44,26 @@ var (
 	_cfg      Config
 	_cfg_proc ProcConfig
 )
+
+// --------------------------------------------------------------
+func handleRun(w http.ResponseWriter, r *http.Request) {
+}
+
+// --------------------------------------------------------------
+func handleStop(w http.ResponseWriter, r *http.Request) {
+}
+
+// --------------------------------------------------------------
+func handleRestart(w http.ResponseWriter, r *http.Request) {
+}
+
+// --------------------------------------------------------------
+func handleInfo(w http.ResponseWriter, r *http.Request) {
+}
+
+// --------------------------------------------------------------
+func handleProfiles(w http.ResponseWriter, r *http.Request) {
+}
 
 // --------------------------------------------------------------
 func loadConfig(cfg_path string) Config {
@@ -89,4 +110,12 @@ func main() {
 	_cfg = loadConfig(*_cfg_path)
 	_cfg_proc = loadProcConfig(*_cfg_proc_path)
 
+	// handle requests
+	http.HandleFunc("/run", handleRun)
+	http.HandleFunc("/stop", handleStop)
+	http.HandleFunc("/restart", handleRestart)
+	http.HandleFunc("/info", handleInfo)
+	http.HandleFunc("/profiles", handleProfiles)
+
+	http.ListenAndServe(":"+_cfg.HttpListenPort, nil)
 }
