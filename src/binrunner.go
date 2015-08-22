@@ -31,8 +31,21 @@ type EntryConfig struct {
 	Args  string
 }
 
+/*
+ * Global vars
+ */
+var (
+	//
+	_cfg_dir       = flag.String("cfg_dir", "../cfg", "path to config directory")
+	_cfg_path      = flag.String("cfg_path", *_cfg_dir+"/binrunner.cfg", "path to config file")
+	_cfg_proc_path = flag.String("cfg_proc_path", *_cfg_dir+"/proc.cfg", "path to proc config file")
+	//
+	_cfg      Config
+	_cfg_proc ProcConfig
+)
+
 // --------------------------------------------------------------
-func loadConfigFile(cfg_path string) Config {
+func loadConfig(cfg_path string) Config {
 	file, errOpen := os.Open(cfg_path)
 	if errOpen != nil {
 		log.Fatal(errOpen)
@@ -68,7 +81,12 @@ func loadProcConfig(cfg_path string) ProcConfig {
 }
 
 func main() {
+	// parse flags
 	flag.Parse()
 	log.SetFlags(log.Lshortfile)
+
+	// load config files
+	_cfg = loadConfig(*_cfg_path)
+	_cfg_proc = loadProcConfig(*_cfg_proc_path)
 
 }
