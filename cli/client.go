@@ -58,16 +58,16 @@ func main() {
 	}
 
 	usage := `client.
-																																											Usage:
-																																													client <command> [<args>...]
+	Usage:
+		client <command> [<args>...]
 
-																																														Options:
-																																																-h, --help
+	Options:
+		-h, --help
 
-																																																	Commands:
-																																																			run 	attempts to run a command passed into the client.
-																																																					stop	stops a command via passed in pid.
-																																																							list	requests a list of running processes.`
+	Commands:
+		run 	attempts to run a command passed into the client.
+		stop	stops a command via passed in pid.
+		list	requests a list of running processes.`
 
 	args, _ := docopt.Parse(usage, nil, true, "client", true)
 
