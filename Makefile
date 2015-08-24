@@ -16,6 +16,9 @@ BIN_NAME := binrunner
 BIN_DIR := ./bin
 SOURCE_DIR := ./src
 
+CLI_NAME := cli
+CLI_SOURCE_DIR := ./cli
+
 GOFLAGS ?= $(GOFLAGS:)
 
 .PHONY: all build install test bench clean fmt
@@ -24,6 +27,7 @@ all: install test
 
 build: 
 	@go build $(GOFLAGS) -o $(BIN_DIR)/$(BIN_NAME) $(SOURCE_DIR)/...
+	@go build $(GOFLAGS) -o $(BIN_DIR)/$(CLI_NAME) $(CLI_SOURCE_DIR)/...
 
 install:
 	@go get $(GOFLAGS) $(SOURCE_DIR)/...
@@ -39,4 +43,5 @@ clean:
 
 fmt:
 	@go fmt $(GOFLAGS) $(SOURCE_DIR)/...
+	@go fmt $(GOFLAGS) $(CLI_SOURCE_DIR)/...
 

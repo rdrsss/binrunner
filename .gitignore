@@ -1,3 +1,5 @@
 bin/binrunner
+bin/cli
 src/src
+cli/cli
 *.swp
