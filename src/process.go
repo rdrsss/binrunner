@@ -13,6 +13,7 @@ import (
 	"sync"
 )
 
+// TODO :: expand the process map to keep track of uptime and restart count
 type ProcessMap struct {
 	proc_map   map[int]*exec.Cmd // pid - cmd
 	pm_rw_lock sync.RWMutex
