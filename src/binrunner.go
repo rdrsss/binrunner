@@ -47,22 +47,57 @@ var (
 
 // --------------------------------------------------------------
 func handleRun(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+
+	} else {
+		// 400
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Invalid Method"))
+	}
 }
 
 // --------------------------------------------------------------
 func handleStop(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+
+	} else {
+		// 400
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Invalid Method"))
+	}
 }
 
 // --------------------------------------------------------------
 func handleRestart(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+
+	} else {
+		// 400
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Invalid Method"))
+	}
 }
 
 // --------------------------------------------------------------
 func handleInfo(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+
+	} else {
+		// 400
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Invalid Method"))
+	}
 }
 
 // --------------------------------------------------------------
 func handleProfiles(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+
+	} else {
+		// 400
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Invalid Method"))
+	}
 }
 
 // --------------------------------------------------------------
